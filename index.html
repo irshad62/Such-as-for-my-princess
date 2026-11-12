@@ -2,55 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Princess 🐼❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #ffe6ea 0%, #ffc2d1 100%);
+            background: linear-gradient(135deg, #ffccd5 0%, #ffb3c1 50%, #ff8fa3 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            padding: 20px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 16px;
+            position: relative;
         }
 
+        /* Ambient floating background particles */
+        .bg-particle {
+            position: fixed;
+            bottom: -50px;
+            font-size: 24px;
+            opacity: 0.45;
+            pointer-events: none;
+            animation: floatUp linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.5; }
+            85% { opacity: 0.5; }
+            100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Glassmorphism Card */
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 25px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 28px 22px;
+            border-radius: 26px;
+            border: 2px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 20px 45px rgba(201, 24, 74, 0.25);
             text-align: center;
             max-width: 420px;
             width: 100%;
             position: relative;
             z-index: 10;
+            margin: auto;
         }
 
         .panda-icon {
-            font-size: 65px;
-            margin-bottom: 15px;
+            font-size: 48px;
+            margin-bottom: 12px;
             display: inline-block;
-            animation: bounce 2s infinite;
+            white-space: nowrap;
+            animation: pandaWobble 2.2s ease-in-out infinite;
+            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.1));
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        @keyframes pandaWobble {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-6px) rotate(-5deg); }
+            75% { transform: translateY(-6px) rotate(5deg); }
         }
 
         h1 {
-            color: #c9184a;
-            font-size: 22px;
+            color: #a4133c;
+            font-size: 19px;
             line-height: 1.5;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             font-weight: 600;
         }
 
@@ -58,81 +88,100 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
-            min-height: 55px;
+            gap: 16px;
+            min-height: 52px;
+            flex-wrap: wrap;
         }
 
         button {
-            padding: 12px 30px;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 12px 28px;
+            font-size: 16px;
+            font-weight: 700;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            user-select: none;
         }
 
         #yesBtn {
-            background-color: #ff4d6d;
+            background: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%);
             color: white;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.45);
+            z-index: 15;
         }
 
         #yesBtn:hover {
-            transform: scale(1.08);
-            background-color: #e01e37;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.6);
         }
 
         #noBtn {
-            background-color: #adb5bd;
+            background-color: #8d99ae;
             color: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: left 0.25s ease-out, top 0.25s ease-out;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+            z-index: 20;
         }
 
         /* Popup shown under Yes button when Yes is clicked */
         #yesPopup {
             display: none;
-            margin-top: 25px;
-            padding: 18px;
-            background-color: #fff0f3;
+            margin-top: 20px;
+            padding: 16px 15px;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe5ec 100%);
             border: 2px dashed #ff4d6d;
-            border-radius: 16px;
-            color: #a4133c;
-            font-size: 17px;
+            border-radius: 18px;
+            color: #800f2f;
+            font-size: 15.5px;
             font-weight: 600;
-            line-height: 1.5;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            line-height: 1.55;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.15);
+            animation: popIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Small toast popup when trying to press No */
+        /* Small floating toast popup when trying to press No */
         #noToast {
             position: fixed;
-            bottom: 30px;
+            bottom: 24px;
             left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background-color: #333;
+            transform: translateX(-50%) translateY(25px) scale(0.95);
+            background: rgba(33, 37, 41, 0.92);
+            backdrop-filter: blur(6px);
             color: #fff;
-            padding: 12px 24px;
+            padding: 11px 22px;
             border-radius: 50px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s, transform 0.3s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 100;
             white-space: nowrap;
         }
 
         #noToast.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+
+        /* Celebration burst particles */
+        .burst-item {
+            position: fixed;
+            pointer-events: none;
+            font-size: 26px;
+            z-index: 99;
+            animation: burstFly 1.6s ease-out forwards;
+        }
+
+        @keyframes burstFly {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1.3) rotate(var(--rot)); opacity: 0; }
         }
 
         @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1); }
+            0% { opacity: 0; transform: scale(0.8) translateY(8px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
     </style>
 </head>
@@ -140,8 +189,8 @@
 
     <div class="card">
         <div class="panda-icon" id="pandaEmoji">🥺🐼💐</div>
-        <h1>
-            Tmi to amr sob k6u aacho go tmi raag e gle amr ki hobe !. If you forgive me, press the Yes button ❤️
+        <h1 id="headlineText">
+            Please forgive me, sorry! You are my world and everything. If you forgive me, press the Yes button ❤️
         </h1>
 
         <div class="btn-group">
@@ -150,7 +199,7 @@
         </div>
 
         <div id="yesPopup">
-            I love you my jaan my princess and I really feel embarrassed for whatever I have done 🐼💕🥺✨
+            I love you my princess and I really feel embarrassed for whatever I have done 🐼💕🥺✨
         </div>
     </div>
 
@@ -164,16 +213,38 @@
         const pandaEmoji = document.getElementById('pandaEmoji');
 
         let toastTimeout;
+        let dodgeCount = 0;
 
-        // Function to dodge the No button and trigger the toast popup
+        const pleaMessages = [
+            "Babe please na, please say yes 🥺🐼",
+            "Are you sure? Look at this cute panda 🐼💔",
+            "Don't do this to me princess 😭❤️",
+            "My heart can't take a No 🥺✨",
+            "Pretty please? I'll make it up to you 🍫🐼",
+            "You know you want to press Yes 😉💖"
+        ];
+
+        function createAmbientParticles() {
+            const symbols = ['❤️', '🐼', '💕', '✨', '🌸'];
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'bg-particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.animationDuration = `${6 + Math.random() * 6}s`;
+                particle.style.fontSize = `${18 + Math.random() * 12}px`;
+                document.body.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 12000);
+            }, 700);
+        }
+
         function dodgeNoButton(e) {
             if (e) e.preventDefault();
 
-            // Switch to fixed positioning so it can jump anywhere inside the viewport
             noBtn.style.position = 'fixed';
 
-            // Calculate safe boundaries within the screen
-            const padding = 20;
+            const padding = 24;
             const maxX = window.innerWidth - noBtn.offsetWidth - padding;
             const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
@@ -183,26 +254,63 @@
             noBtn.style.left = `${randomX}px`;
             noBtn.style.top = `${randomY}px`;
 
-            // Show the small toast message
+            dodgeCount++;
+            const newScale = Math.min(1 + dodgeCount * 0.06, 1.35);
+            yesBtn.style.transform = `scale(${newScale})`;
+
+            noToast.textContent = pleaMessages[(dodgeCount - 1) % pleaMessages.length];
             noToast.classList.add('show');
+
+            pandaEmoji.textContent = '😭🐼💔';
+
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
                 noToast.classList.remove('show');
             }, 2500);
         }
 
-        // Trigger dodge on both hover (desktop) and touch/click (mobile)
+        function triggerCelebrationBurst() {
+            const celebrationItems = ['🐼', '❤️', '💖', '🥰', '🎉', '💕', '🌹'];
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            for (let i = 0; i < 36; i++) {
+                const item = document.createElement('div');
+                item.className = 'burst-item';
+                item.textContent = celebrationItems[Math.floor(Math.random() * celebrationItems.length)];
+                item.style.left = `${centerX}px`;
+                item.style.top = `${centerY}px`;
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 100 + Math.random() * 200;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance - 50;
+                const rot = (Math.random() - 0.5) * 360;
+
+                item.style.setProperty('--tx', `${tx}px`);
+                item.style.setProperty('--ty', `${ty}px`);
+                item.style.setProperty('--rot', `${rot}deg`);
+
+                document.body.appendChild(item);
+                setTimeout(() => item.remove(), 1600);
+            }
+        }
+
         noBtn.addEventListener('mouseover', dodgeNoButton);
         noBtn.addEventListener('touchstart', dodgeNoButton, { passive: false });
         noBtn.addEventListener('click', dodgeNoButton);
 
-        // Show the apology message under the Yes button when clicked
         yesBtn.addEventListener('click', () => {
             yesPopup.style.display = 'block';
             pandaEmoji.textContent = '🐼❤️🥰🎉';
-            noBtn.style.display = 'none'; // Hide the No button once forgiven
+            yesBtn.style.transform = 'scale(1)';
+            yesBtn.textContent = 'Thank You My Love 💖';
+            noBtn.style.display = 'none';
             noToast.classList.remove('show');
+            triggerCelebrationBurst();
         });
+
+        createAmbientParticles();
     </script>
 
 </body>
