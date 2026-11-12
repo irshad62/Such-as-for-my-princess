@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Princess 🐼❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffe6ea 0%, #ffc2d1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px 25px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .panda-icon {
+            font-size: 65px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            color: #c9184a;
+            font-size: 22px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 55px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.08);
+            background-color: #e01e37;
+        }
+
+        #noBtn {
+            background-color: #adb5bd;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: left 0.25s ease-out, top 0.25s ease-out;
+        }
+
+        /* Popup shown under Yes button when Yes is clicked */
+        #yesPopup {
+            display: none;
+            margin-top: 25px;
+            padding: 18px;
+            background-color: #fff0f3;
+            border: 2px dashed #ff4d6d;
+            border-radius: 16px;
+            color: #a4133c;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.5;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Small toast popup when trying to press No */
+        #noToast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background-color: #333;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 500;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        #noToast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="panda-icon" id="pandaEmoji">🥺🐼💐</div>
+        <h1>
+            Tmi to amr sob k6u aacho go tmi raag e gle amr ki hobe !. If you forgive me, press the Yes button ❤️
+        </h1>
+
+        <div class="btn-group">
+            <button id="yesBtn">Yes 💖</button>
+            <button id="noBtn">No 😤</button>
+        </div>
+
+        <div id="yesPopup">
+            I love you my jaan my princess and I really feel embarrassed for whatever I have done 🐼💕🥺✨
+        </div>
+    </div>
+
+    <div id="noToast">Babe please na, please say yes 🥺🐼</div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const yesPopup = document.getElementById('yesPopup');
+        const noToast = document.getElementById('noToast');
+        const pandaEmoji = document.getElementById('pandaEmoji');
+
+        let toastTimeout;
+
+        // Function to dodge the No button and trigger the toast popup
+        function dodgeNoButton(e) {
+            if (e) e.preventDefault();
+
+            // Switch to fixed positioning so it can jump anywhere inside the viewport
+            noBtn.style.position = 'fixed';
+
+            // Calculate safe boundaries within the screen
+            const padding = 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+
+            // Show the small toast message
+            noToast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                noToast.classList.remove('show');
+            }, 2500);
+        }
+
+        // Trigger dodge on both hover (desktop) and touch/click (mobile)
+        noBtn.addEventListener('mouseover', dodgeNoButton);
+        noBtn.addEventListener('touchstart', dodgeNoButton, { passive: false });
+        noBtn.addEventListener('click', dodgeNoButton);
+
+        // Show the apology message under the Yes button when clicked
+        yesBtn.addEventListener('click', () => {
+            yesPopup.style.display = 'block';
+            pandaEmoji.textContent = '🐼❤️🥰🎉';
+            noBtn.style.display = 'none'; // Hide the No button once forgiven
+            noToast.classList.remove('show');
+        });
+    </script>
+
+</body>
+</html>
